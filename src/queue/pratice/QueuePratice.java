@@ -14,14 +14,16 @@ class Nodo{
     int id;
     Nodo next;
     
-    Nodo(int id, boolean priority){
+
+    public Nodo(int id, boolean priority){
         this.id = id;
         this.prioridad = priority;
     }
+
 }
 public class QueuePratice {
     Nodo front;
-    int size;
+    Nodo rear;
 
     QueuePratice(){
         this.front = null;
@@ -31,15 +33,12 @@ public class QueuePratice {
         Nodo newnodo = new Nodo(dato1, dato2);
         if(front == null){
             this.front = newnodo;
+            this.rear = front;
             
         }else{
-            Nodo aux = front;
-            while(aux.next != null){
-                aux = aux.next;
-            }
-            aux.next = newnodo;
+            this.rear.next = newnodo;
+            this.rear = rear.next;
         }
-        this.size ++;
     }
     public void show(){
         Nodo aux = front;
@@ -55,15 +54,22 @@ public class QueuePratice {
             aux = aux.next;
         }
     }    
-    public void peek(){
-        System.out.println(front.id );
+    int peek(){
+        return front.id;
     }
-    public void dequeue(){
-        Nodo temp = front;
-        System.out.println(temp.id);
-        front = front.next;
-        temp = null;
-        this.size --;
+    Boolean isEmpty(){
+        return this.front == null;
+    }
+    
+    int dequeue(){
+        if(this.isEmpty()){
+            return 0;
+        }else{
+            Nodo temp = front;
+            front = front.next;
+            temp.next = null;
+            return temp.id;
+        }
     }
     public void dequeuePriority(){
         Nodo prev = null;
@@ -75,9 +81,6 @@ public class QueuePratice {
         System.out.println(aux.id);
         prev.next = aux.next;
     }    
-    public void length(){
-        System.out.println(this.size);
-    }
 
     /**
      * @param args the command line arguments
@@ -85,19 +88,18 @@ public class QueuePratice {
     public static void main(String[] args) {
         // TODO code application logic here
         QueuePratice queue = new QueuePratice();
-        queue.enqueue(1, false);
-        queue.enqueue(2, false);
-        queue.enqueue(3, true);
-        queue.enqueue(4, false);
-        queue.enqueue(5, false);
-        queue.enqueue(6, false);
-        queue.showPriority();
-        queue.dequeue();
-        queue.showPriority();
-        System.out.print("amount: " );
-        queue.length();
-        System.out.print("dequeue with prority: ");
+        queue.enqueue(53, false);
+        queue.enqueue(54,false);
+        queue.enqueue(55,true);
+        queue.enqueue(56,false);
+        queue.show();
+        System.out.println("what the queue contains");
+        int number = queue.peek();
+        System.out.println("peek value "+ number);
         queue.dequeuePriority();
+        System.out.println("after the dequeue with priority");
+        queue.show();
+        
         
 
     }
